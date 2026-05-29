@@ -1,0 +1,144 @@
+{
+  "exercises": [
+    {
+      "name": "跑步（慢跑）",
+      "caloriesPerMinute": 10,
+      "category": "有氧",
+      "difficulty": "初级",
+      "description": "中低强度的户外或跑步机慢跑，适合初学者，每小时消耗约600卡路里"
+    },
+    {
+      "name": "跑步（快跑）",
+      "caloriesPerMinute": 14,
+      "category": "有氧",
+      "difficulty": "中级",
+      "description": "高强度跑步，每小时消耗约840卡路里，对心肺功能要求较高"
+    },
+    {
+      "name": "跳绳",
+      "caloriesPerMinute": 12,
+      "category": "有氧",
+      "difficulty": "中级",
+      "description": "全身协调性训练，每小时消耗约720卡路里，有效提升心肺功能"
+    },
+    {
+      "name": "波比跳",
+      "caloriesPerMinute": 14,
+      "category": "HIIT",
+      "difficulty": "高级",
+      "description": "结合深蹲、俯卧撑、跳跃的复合动作，每小时消耗约840卡路里"
+    },
+    {
+      "name": "登山者",
+      "caloriesPerMinute": 11,
+      "category": "HIIT",
+      "difficulty": "中级",
+      "description": "登山者姿势交替提膝，每小时消耗约660卡路里"
+    },
+    {
+      "name": "高抬腿",
+      "caloriesPerMinute": 10,
+      "category": "HIIT",
+      "difficulty": "初级",
+      "description": "原地高抬腿跑，每小时消耗约600卡路里，热身必备动作"
+    },
+    {
+      "name": "开合跳",
+      "caloriesPerMinute": 9,
+      "category": "HIIT",
+      "difficulty": "初级",
+      "description": "手脚同时打开跳的全身动作，每小时消耗约540卡路里"
+    },
+    {
+      "name": "游泳",
+      "caloriesPerMinute": 11,
+      "category": "有氧",
+      "difficulty": "中级",
+      "description": "自由泳中速水平，每小时消耗约660卡路里，低冲击运动"
+    },
+    {
+      "name": "骑自行车",
+      "caloriesPerMinute": 9,
+      "category": "有氧",
+      "difficulty": "初级",
+      "description": "中等速度骑行，每小时消耗约540卡路里，膝关节友好"
+    },
+    {
+      "name": "动感单车",
+      "caloriesPerMinute": 12,
+      "category": "有氧",
+      "difficulty": "中级",
+      "description": "室内健身房的动感单车课程，每小时消耗约720卡路里"
+    },
+    {
+      "name": "划船机",
+      "caloriesPerMinute": 11,
+      "category": "有氧",
+      "difficulty": "中级",
+      "description": "模拟划船动作，每小时消耗约660卡路里，锻炼全身80%肌肉群"
+    },
+    {
+      "name": "椭圆机",
+      "caloriesPerMinute": 8,
+      "category": "有氧",
+      "difficulty": "初级",
+      "description": "低冲击有氧器械，每小时消耗约480卡路里，适合体重较大者"
+    },
+    {
+      "name": "步行",
+      "caloriesPerMinute": 5,
+      "category": "有氧",
+      "difficulty": "初级",
+      "description": "中速步行，每小时消耗约300卡路里，最安全的运动方式"
+    },
+    {
+      "name": "跳杰克",
+      "caloriesPerMinute": 8,
+      "category": "HIIT",
+      "difficulty": "初级",
+      "description": "左右交替跳跃打开手脚，每小时消耗约480卡路里"
+    },
+    {
+      "name": "深蹲跳",
+      "caloriesPerMinute": 10,
+      "category": "力量/HIIT",
+      "difficulty": "中级",
+      "description": "深蹲后向上跳跃，每小时消耗约600卡路里，锻炼下肢力量"
+    },
+    {
+      "name": "平板支撑",
+      "caloriesPerMinute": 5,
+      "category": "力量",
+      "difficulty": "中级",
+      "description": "核心肌群等长收缩训练，每小时消耗约300卡路里"
+    },
+    {
+      "name": "波比跳（简化版）",
+      "caloriesPerMinute": 8,
+      "category": "HIIT",
+      "difficulty": "初级",
+      "description": "无俯卧撑版本的波比跳，每小时消耗约480卡路里，适合初学者"
+    },
+    {
+      "name": "战绳训练",
+      "caloriesPerMinute": 12,
+      "category": "力量/HIIT",
+      "difficulty": "高级",
+      "description": "甩动heavy ropes，每小时消耗约720卡路里，上肢爆发力训练"
+    },
+    {
+      "name": "爬楼梯",
+      "caloriesPerMinute": 9,
+      "category": "有氧",
+      "difficulty": "中级",
+      "description": "快速爬楼梯，每小时消耗约540卡路里，下肢力量与心肺训练兼备"
+    },
+    {
+      "name": "踏步机",
+      "caloriesPerMinute": 9,
+      "category": "有氧",
+      "difficulty": "初级",
+      "description": "室内踏步机训练，每小时消耗约540卡路里，膝关节冲击较小"
+    }
+  ]
+}

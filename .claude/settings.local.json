@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gradle wrapper *)",
+      "WebSearch",
+      "Bash(curl -L -o D:/train/gradle/wrapper/gradle-wrapper.jar https://github.com/gradle/gradle/raw/v8.4.0/gradle/wrapper/gradle-wrapper.jar)",
+      "Skill(update-config)",
+      "Bash(claude --plugin-install superpowers@claude-plugins-official)",
+      "Read(//c/Users/Administrator/.claude/plugins/marketplaces/**)",
+      "Read(//c/Users/Administrator/.claude/**)",
+      "Bash(git clone *)",
+      "Bash(cp *)",
+      "Bash(mkdir -p ~/.claude/plugins/marketplaces/obra-superpowers-marketplace)",
+      "Bash(cp -r /tmp/superpowers/hooks /tmp/superpowers/skills /tmp/superpowers/package.json ~/.claude/plugins/marketplaces/obra-superpowers-marketplace/)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git rebase *)"
+    ]
+  }
+}
