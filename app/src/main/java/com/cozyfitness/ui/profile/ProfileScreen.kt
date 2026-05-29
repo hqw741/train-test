@@ -1,5 +1,7 @@
 package com.cozyfitness.ui.profile
 
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,17 +43,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.cozyfitness.domain.model.UnitSystem
 import com.cozyfitness.ui.theme.MintWhisper
 import com.cozyfitness.ui.theme.SageGreen
 import com.cozyfitness.ui.theme.SoftWhite
 
 @Composable
-fun ProfileScreen() {
-    var stepGoal by remember { mutableFloatStateOf(10000f) }
-    var calorieGoal by remember { mutableFloatStateOf(500f) }
-    var activeMinutesGoal by remember { mutableFloatStateOf(30f) }
+fun ProfileScreen(
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    var stepGoal by remember { mutableFloatStateOf(uiState.user?.dailyStepGoal?.toFloat() ?: 10000f) }
+    var calorieGoal by remember { mutableFloatStateOf(uiState.user?.dailyCalorieGoal?.toFloat() ?: 500f) }
+    var activeMinutesGoal by remember { mutableFloatStateOf(uiState.user?.dailyActiveMinutesGoal?.toFloat() ?: 30f) }
     var notificationsEnabled by remember { mutableStateOf(true) }
-    var metricUnits by remember { mutableStateOf(true) }
+    var metricUnits by remember { mutableStateOf(uiState.user?.preferredUnit == UnitSystem.METRIC) }
 
     Column(
         modifier = Modifier
@@ -106,7 +112,8 @@ fun ProfileScreen() {
                     onValueChange = { stepGoal = it },
                     valueRange = 5000f..20000f,
                     step = 1000f,
-                    displayValue = stepGoal.toInt().toString()
+                    displayValue = stepGoal.toInt().toString(),
+                    onValueChangeComplete = { viewModel.updateStepGoal(it.toInt()) }
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
                 GoalSlider(
@@ -115,7 +122,8 @@ fun ProfileScreen() {
                     onValueChange = { calorieGoal = it },
                     valueRange = 200f..1000f,
                     step = 50f,
-                    displayValue = calorieGoal.toInt().toString()
+                    displayValue = calorieGoal.toInt().toString(),
+                    onValueChangeComplete = { viewModel.updateCalorieGoal(it.toInt()) }
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
                 GoalSlider(
@@ -124,7 +132,8 @@ fun ProfileScreen() {
                     onValueChange = { activeMinutesGoal = it },
                     valueRange = 10f..120f,
                     step = 5f,
-                    displayValue = activeMinutesGoal.toInt().toString()
+                    displayValue = activeMinutesGoal.toInt().toString(),
+                    onValueChangeComplete = { viewModel.updateActiveMinutesGoal(it.toInt()) }
                 )
             }
         }
@@ -147,7 +156,7 @@ fun ProfileScreen() {
                     label = "单位",
                     value = if (metricUnits) "公制" else "英制",
                     checked = metricUnits,
-                    onCheckedChange = { metricUnits = it }
+                    onCheckedChange = { viewModel.updatePreferredUnit(if (it) UnitSystem.METRIC else UnitSystem.IMPERIAL) }
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
                 PreferenceToggle(
@@ -237,7 +246,8 @@ fun GoalSlider(
     onValueChange: (Float) -> Unit,
     valueRange: ClosedFloatingPointRange<Float>,
     step: Float,
-    displayValue: String
+    displayValue: String,
+    onValueChangeComplete: (Float) -> Unit
 ) {
     Column {
         Row(
@@ -258,6 +268,7 @@ fun GoalSlider(
         Slider(
             value = value,
             onValueChange = onValueChange,
+            onValueChangeComplete = onValueChangeComplete,
             valueRange = valueRange,
             steps = ((valueRange.endInclusive - valueRange.start) / step).toInt() - 1,
             colors = SliderDefaults.colors(
