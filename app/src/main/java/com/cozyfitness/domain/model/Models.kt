@@ -1,6 +1,11 @@
 package com.cozyfitness.domain.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "user")
 data class User(
+    @PrimaryKey
     val id: String = "",
     val name: String = "Alex",
     val avatarUri: String? = null,
@@ -14,7 +19,9 @@ enum class UnitSystem {
     METRIC, IMPERIAL
 }
 
+@Entity(tableName = "workoutplan")
 data class WorkoutPlan(
+    @PrimaryKey
     val id: String = "",
     val title: String = "",
     val description: String = "",
@@ -22,7 +29,6 @@ data class WorkoutPlan(
     val difficulty: Difficulty = Difficulty.BEGINNER,
     val estimatedDurationMinutes: Int = 0,
     val estimatedCalories: Int = 0,
-    val exercises: List<Exercise> = emptyList(),
     val isActive: Boolean = false
 )
 
@@ -30,7 +36,9 @@ enum class Difficulty {
     BEGINNER, INTERMEDIATE, ADVANCED
 }
 
+@Entity(tableName = "exercise")
 data class Exercise(
+    @PrimaryKey
     val id: String = "",
     val name: String = "",
     val description: String = "",
@@ -47,7 +55,9 @@ enum class ExerciseType {
     CARDIO, STRENGTH, FLEXIBILITY, HIIT
 }
 
+@Entity(tableName = "workoutsession")
 data class WorkoutSession(
+    @PrimaryKey
     val id: String = "",
     val planId: String? = null,
     val startedAt: Long = 0,
@@ -64,7 +74,9 @@ enum class WorkoutStatus {
     IN_PROGRESS, COMPLETED, ABANDONED
 }
 
+@Entity(tableName = "dailystats")
 data class DailyStats(
+    @PrimaryKey
     val id: String = "",
     val date: String = "",
     val steps: Int = 0,
@@ -75,7 +87,9 @@ data class DailyStats(
     val distanceKm: Float? = null
 )
 
+@Entity(tableName = "achievement")
 data class Achievement(
+    @PrimaryKey
     val id: String = "",
     val title: String = "",
     val description: String = "",
