@@ -34,7 +34,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cozyfitness.domain.model.DailyStats
+import com.cozyfitness.domain.model.Difficulty
 import com.cozyfitness.domain.model.WorkoutPlan
 import com.cozyfitness.ui.theme.CoralPeach
 import com.cozyfitness.ui.theme.MintWhisper
@@ -43,7 +46,10 @@ import com.cozyfitness.ui.theme.SkyBlue
 import com.cozyfitness.ui.theme.SoftWhite
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    viewModel: HomeViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -59,7 +65,7 @@ fun HomeScreen() {
         ) {
             Column {
                 Text(
-                    text = "早上好，Alex",
+                    text = "早上好，${uiState.user?.name ?: "Alex"}",
                     style = MaterialTheme.typography.headlineMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
@@ -87,14 +93,9 @@ fun HomeScreen() {
         Spacer(modifier = Modifier.height(24.dp))
 
         // Today's Workout Hero Card
-        TodayWorkoutCard(
-            workoutPlan = WorkoutPlan(
-                title = "晨间有氧",
-                estimatedDurationMinutes = 25,
-                estimatedCalories = 180,
-                difficulty = com.cozyfitness.domain.model.Difficulty.BEGINNER
-            )
-        )
+        uiState.activeWorkoutPlan?.let { plan ->
+            TodayWorkoutCard(workoutPlan = plan)
+        } ?: TodayWorkoutCard(workoutPlan = WorkoutPlan(title = "暂无训练计划", estimatedDurationMinutes = 0, estimatedCalories = 0, difficulty = Difficulty.BEGINNER))
 
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -111,21 +112,21 @@ fun HomeScreen() {
         ) {
             StatTile(
                 icon = Icons.AutoMirrored.Filled.DirectionsWalk,
-                value = "8,432",
+                value = uiState.todayStats?.steps?.toString() ?: "0",
                 label = "步数",
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(12.dp))
             StatTile(
                 icon = Icons.Default.Timer,
-                value = "18",
+                value = uiState.todayStats?.activeMinutes?.toString() ?: "0",
                 label = "分钟",
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(12.dp))
             StatTile(
                 icon = Icons.Default.LocalFireDepartment,
-                value = "320",
+                value = uiState.todayStats?.caloriesBurned?.toString() ?: "0",
                 label = "卡路里",
                 modifier = Modifier.weight(1f),
                 highlighted = true
