@@ -36,6 +36,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cozyfitness.ui.theme.Amber
 import com.cozyfitness.ui.theme.CoralPeach
 import com.cozyfitness.ui.theme.MintWhisper
@@ -44,7 +46,10 @@ import com.cozyfitness.ui.theme.SkyBlue
 import com.cozyfitness.ui.theme.SoftWhite
 
 @Composable
-fun StatsScreen() {
+fun StatsScreen(
+    viewModel: StatsViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("本周", "本月")
 
@@ -115,9 +120,9 @@ fun StatsScreen() {
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    StatItem(value = "4", label = "训练")
-                    StatItem(value = "92", label = "分钟")
-                    StatItem(value = "720", label = "千卡", highlight = true)
+                    StatItem(value = uiState.totalWorkouts.toString(), label = "训练")
+                    StatItem(value = uiState.weeklyStats.sumOf { it.durationMinutes }.toString(), label = "分钟")
+                    StatItem(value = uiState.totalCalories.toString(), label = "千卡", highlight = true)
                 }
             }
         }
@@ -149,7 +154,7 @@ fun StatsScreen() {
                     verticalAlignment = Alignment.Bottom
                 ) {
                     val days = listOf("周一", "周二", "周三", "周四", "周五", "周六", "周日")
-                    val values = listOf(60, 45, 90, 30, 75, 0, 45)
+                    val values = uiState.weeklyStats.map { (it.durationMinutes * 2).coerceAtMost(120) }
                     days.forEachIndexed { index, day ->
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -230,23 +235,23 @@ fun StatsScreen() {
         ) {
             AchievementBadge(
                 icon = Icons.Default.EmojiEvents,
-                title = "7天",
-                subtitle = "连续",
-                unlocked = true,
+                title = uiState.achievements.getOrNull(0)?.title ?: "7天",
+                subtitle = uiState.achievements.getOrNull(0)?.description ?: "连续",
+                unlocked = uiState.achievements.getOrNull(0)?.isUnlocked ?: false,
                 modifier = Modifier.weight(1f)
             )
             AchievementBadge(
                 icon = Icons.Default.EmojiEvents,
-                title = "10万",
-                subtitle = "步数",
-                unlocked = true,
+                title = uiState.achievements.getOrNull(1)?.title ?: "10万",
+                subtitle = uiState.achievements.getOrNull(1)?.description ?: "步数",
+                unlocked = uiState.achievements.getOrNull(1)?.isUnlocked ?: false,
                 modifier = Modifier.weight(1f)
             )
             AchievementBadge(
                 icon = Icons.Default.EmojiEvents,
-                title = "50",
-                subtitle = "训练",
-                unlocked = false,
+                title = uiState.achievements.getOrNull(2)?.title ?: "50",
+                subtitle = uiState.achievements.getOrNull(2)?.description ?: "训练",
+                unlocked = uiState.achievements.getOrNull(2)?.isUnlocked ?: false,
                 modifier = Modifier.weight(1f)
             )
         }
