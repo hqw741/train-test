@@ -29,10 +29,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -67,7 +63,7 @@ fun TrackingScreen(
             text = if (uiState.isTracking) formatTime(uiState.elapsedSeconds) else "已暂停",
             style = MaterialTheme.typography.displayLarge,
             fontWeight = FontWeight.Bold,
-            color = if (isRunning) MaterialTheme.colorScheme.onBackground else Amber
+            color = if (uiState.isTracking) MaterialTheme.colorScheme.onBackground else Amber
         )
 
         Spacer(modifier = Modifier.height(32.dp))
@@ -162,6 +158,7 @@ fun TrackingScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         // Rest Timer (when applicable)
+        val restTime = uiState.currentExercises.firstOrNull()?.restSeconds ?: 0
         if (restTime > 0) {
             Card(
                 modifier = Modifier.fillMaxWidth(),
