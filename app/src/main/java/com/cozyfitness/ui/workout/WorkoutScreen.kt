@@ -26,6 +26,9 @@ import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -44,9 +47,13 @@ import com.cozyfitness.ui.theme.SageGreen
 import com.cozyfitness.ui.theme.SoftWhite
 
 @Composable
-fun WorkoutScreen() {
+fun WorkoutScreen(
+    viewModel: WorkoutViewModel = hiltViewModel()
+) {
     var selectedTab by remember { mutableIntStateOf(0) }
     val tabs = listOf("我的计划", "发现")
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val myWorkouts = listOf(
         WorkoutPlan(
@@ -143,9 +150,9 @@ fun WorkoutScreen() {
 
         // Content
         if (selectedTab == 0) {
-            MyPlansContent(myWorkouts)
+            MyPlansContent(uiState.workoutPlans)
         } else {
-            DiscoverContent(discoverWorkouts)
+            DiscoverContent(uiState.workoutPlans)
         }
     }
 }
