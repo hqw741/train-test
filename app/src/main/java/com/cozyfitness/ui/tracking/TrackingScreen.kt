@@ -38,6 +38,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.cozyfitness.ui.theme.Amber
 import com.cozyfitness.ui.theme.CoralPeach
 import com.cozyfitness.ui.theme.MintWhisper
@@ -46,22 +48,10 @@ import com.cozyfitness.ui.theme.SkyBlue
 import com.cozyfitness.ui.theme.SoftWhite
 
 @Composable
-fun TrackingScreen() {
-    var isRunning by remember { mutableStateOf(true) }
-    var currentExercise by remember { mutableIntStateOf(0) }
-    var currentSet by remember { mutableIntStateOf(2) }
-    var restTime by remember { mutableIntStateOf(25) }
-
-    val exercises = listOf(
-        "热身步行",
-        "慢跑",
-        "高抬腿",
-        "后踢腿",
-        "跳绳",
-        "登山者",
-        "放松步行",
-        "拉伸"
-    )
+fun TrackingScreen(
+    viewModel: TrackingViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -74,7 +64,7 @@ fun TrackingScreen() {
 
         // Timer Display
         Text(
-            text = if (isRunning) "0:12:34" else "已暂停",
+            text = if (uiState.isTracking) formatTime(uiState.elapsedSeconds) else "已暂停",
             style = MaterialTheme.typography.displayLarge,
             fontWeight = FontWeight.Bold,
             color = if (isRunning) MaterialTheme.colorScheme.onBackground else Amber
@@ -96,13 +86,13 @@ fun TrackingScreen() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = exercises[currentExercise],
+                    text = uiState.currentSession?.name ?: "无训练中",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.SemiBold
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = if (currentExercise < 3) "第 $currentSet 组" else "持续时间",
+                    text = if (uiState.currentSession != null) "进行中" else "准备开始",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -159,7 +149,7 @@ fun TrackingScreen() {
                                 .size(12.dp)
                                 .clip(CircleShape)
                                 .background(
-                                    if (index <= currentExercise) SageGreen
+                                    if (index < uiState.currentExercises.size) SageGreen
                                     else MintWhisper
                                 )
                         )
@@ -216,22 +206,22 @@ fun TrackingScreen() {
             }
 
             FilledIconButton(
-                onClick = { isRunning = !isRunning },
+                onClick = { if (uiState.isTracking) viewModel.pauseWorkout() else viewModel.startWorkout() },
                 modifier = Modifier.size(80.dp),
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = SageGreen
                 )
             ) {
                 Icon(
-                    imageVector = if (isRunning) Icons.Default.Pause else Icons.Default.PlayArrow,
-                    contentDescription = if (isRunning) "暂停" else "继续",
+                    imageVector = if (uiState.isTracking) Icons.Default.Pause else Icons.Default.PlayArrow,
+                    contentDescription = if (uiState.isTracking) "暂停" else "继续",
                     modifier = Modifier.size(40.dp),
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
 
             OutlinedButton(
-                onClick = { },
+                onClick = { viewModel.completeWorkout() },
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = CoralPeach
                 ),
@@ -242,5 +232,16 @@ fun TrackingScreen() {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+private fun formatTime(seconds: Long): String {
+    val hours = seconds / 3600
+    val minutes = (seconds % 3600) / 60
+    val secs = seconds % 60
+    return if (hours > 0) {
+        "$hours:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}"
+    } else {
+        "${minutes}:${secs.toString().padStart(2, '0')}"
     }
 }
