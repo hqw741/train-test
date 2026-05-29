@@ -113,7 +113,7 @@ fun ProfileScreen(
                     valueRange = 5000f..20000f,
                     step = 1000f,
                     displayValue = stepGoal.toInt().toString(),
-                    onValueChangeComplete = { viewModel.updateStepGoal(it.toInt()) }
+                    onValueChangeFinished = { viewModel.updateStepGoal(stepGoal.toInt()) }
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
                 GoalSlider(
@@ -123,7 +123,7 @@ fun ProfileScreen(
                     valueRange = 200f..1000f,
                     step = 50f,
                     displayValue = calorieGoal.toInt().toString(),
-                    onValueChangeComplete = { viewModel.updateCalorieGoal(it.toInt()) }
+                    onValueChangeFinished = { viewModel.updateCalorieGoal(calorieGoal.toInt()) }
                 )
                 HorizontalDivider(modifier = Modifier.padding(vertical = 16.dp))
                 GoalSlider(
@@ -133,7 +133,7 @@ fun ProfileScreen(
                     valueRange = 10f..120f,
                     step = 5f,
                     displayValue = activeMinutesGoal.toInt().toString(),
-                    onValueChangeComplete = { viewModel.updateActiveMinutesGoal(it.toInt()) }
+                    onValueChangeFinished = { viewModel.updateActiveMinutesGoal(activeMinutesGoal.toInt()) }
                 )
             }
         }
@@ -247,7 +247,7 @@ fun GoalSlider(
     valueRange: ClosedFloatingPointRange<Float>,
     step: Float,
     displayValue: String,
-    onValueChangeComplete: (Float) -> Unit
+    onValueChangeFinished: () -> Unit
 ) {
     Column {
         Row(
@@ -268,7 +268,7 @@ fun GoalSlider(
         Slider(
             value = value,
             onValueChange = onValueChange,
-            onValueChangeComplete = onValueChangeComplete,
+            onValueChangeFinished = onValueChangeFinished,
             valueRange = valueRange,
             steps = ((valueRange.endInclusive - valueRange.start) / step).toInt() - 1,
             colors = SliderDefaults.colors(

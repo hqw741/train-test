@@ -82,7 +82,7 @@ fun TrackingScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = uiState.currentSession?.name ?: "无训练中",
+                    text = if (uiState.currentSession != null) "训练进行中" else "无训练中",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.SemiBold
                 )
@@ -232,7 +232,7 @@ fun TrackingScreen(
     }
 }
 
-private fun formatTime(seconds: Long): String {
+private fun formatTime(seconds: Int): String {
     val hours = seconds / 3600
     val minutes = (seconds % 3600) / 60
     val secs = seconds % 60

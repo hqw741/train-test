@@ -1,6 +1,6 @@
 package com.cozyfitness.data.repository
 
-import com.cozyfitness.data.local.CozyFitnessDatabase
+import com.cozyfitness.data.local.database.CozyFitnessDatabase
 import com.cozyfitness.domain.model.*
 import kotlinx.coroutines.flow.Flow
 import java.util.UUID

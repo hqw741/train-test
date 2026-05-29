@@ -121,7 +121,7 @@ fun StatsScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     StatItem(value = uiState.totalWorkouts.toString(), label = "训练")
-                    StatItem(value = uiState.weeklyStats.sumOf { it.durationMinutes }.toString(), label = "分钟")
+                    StatItem(value = uiState.weeklyStats.sumOf { it.activeMinutes }.toString(), label = "分钟")
                     StatItem(value = uiState.totalCalories.toString(), label = "千卡", highlight = true)
                 }
             }
@@ -154,7 +154,7 @@ fun StatsScreen(
                     verticalAlignment = Alignment.Bottom
                 ) {
                     val days = listOf("周一", "周二", "周三", "周四", "周五", "周六", "周日")
-                    val values = uiState.weeklyStats.map { (it.durationMinutes * 2).coerceAtMost(120) }
+                    val values = uiState.weeklyStats.map { (it.activeMinutes * 2).coerceAtMost(120) }
                     days.forEachIndexed { index, day ->
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally

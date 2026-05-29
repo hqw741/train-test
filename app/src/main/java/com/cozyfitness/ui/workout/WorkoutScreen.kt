@@ -39,7 +39,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.cozyfitness.domain.model.Difficulty
-import com.cozyfitness.domain.model.Exercise
 import com.cozyfitness.domain.model.WorkoutPlan
 import com.cozyfitness.ui.theme.CoralPeach
 import com.cozyfitness.ui.theme.MintWhisper
@@ -63,11 +62,6 @@ fun WorkoutScreen(
             difficulty = Difficulty.BEGINNER,
             estimatedDurationMinutes = 25,
             estimatedCalories = 180,
-            exercises = listOf(
-                Exercise(name = "热身步行", durationSeconds = 300),
-                Exercise(name = "慢跑", durationSeconds = 300),
-                Exercise(name = "高抬腿", durationSeconds = 180)
-            ),
             isActive = true
         ),
         WorkoutPlan(
@@ -77,10 +71,6 @@ fun WorkoutScreen(
             difficulty = Difficulty.INTERMEDIATE,
             estimatedDurationMinutes = 30,
             estimatedCalories = 350,
-            exercises = listOf(
-                Exercise(name = "波比跳", durationSeconds = 45, restSeconds = 15),
-                Exercise(name = "登山者", durationSeconds = 45, restSeconds = 15)
-            ),
             isActive = false
         )
     )

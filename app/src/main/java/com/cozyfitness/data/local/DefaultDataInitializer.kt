@@ -1,5 +1,6 @@
 package com.cozyfitness.data.local
 
+import com.cozyfitness.data.local.database.CozyFitnessDatabase
 import com.cozyfitness.data.local.dao.*
 import com.cozyfitness.domain.model.*
 import kotlinx.coroutines.CoroutineScope

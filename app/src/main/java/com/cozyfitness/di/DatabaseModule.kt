@@ -2,7 +2,7 @@ package com.cozyfitness.di
 
 import android.content.Context
 import androidx.room.Room
-import com.cozyfitness.data.local.CozyFitnessDatabase
+import com.cozyfitness.data.local.database.CozyFitnessDatabase
 import com.cozyfitness.data.repository.AppRepository
 import dagger.Module
 import dagger.Provides

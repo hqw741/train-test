@@ -28,6 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -93,9 +94,11 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(24.dp))
 
         // Today's Workout Hero Card
-        uiState.activeWorkoutPlan?.let { plan ->
-            TodayWorkoutCard(workoutPlan = plan)
-        } ?: TodayWorkoutCard(workoutPlan = WorkoutPlan(title = "暂无训练计划", estimatedDurationMinutes = 0, estimatedCalories = 0, difficulty = Difficulty.BEGINNER))
+        if (uiState.activeWorkoutPlan != null) {
+            TodayWorkoutCard(workoutPlan = uiState.activeWorkoutPlan!!)
+        } else {
+            TodayWorkoutCard(workoutPlan = WorkoutPlan(title = "暂无训练计划", estimatedDurationMinutes = 0, estimatedCalories = 0, difficulty = Difficulty.BEGINNER))
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 

@@ -40,6 +40,7 @@ enum class Difficulty {
 data class Exercise(
     @PrimaryKey
     val id: String = "",
+    val planId: String? = null,
     val name: String = "",
     val description: String = "",
     val type: ExerciseType = ExerciseType.CARDIO,
